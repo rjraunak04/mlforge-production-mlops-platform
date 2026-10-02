@@ -41,9 +41,7 @@ CHURN_SCHEMA = pa.DataFrameSchema(
         "MultipleLines": pa.Column(
             str, pa.Check.isin(["Yes", "No", "No phone service"])
         ),
-        "InternetService": pa.Column(
-            str, pa.Check.isin(["DSL", "Fiber optic", "No"])
-        ),
+        "InternetService": pa.Column(str, pa.Check.isin(["DSL", "Fiber optic", "No"])),
         "OnlineSecurity": pa.Column(
             str, pa.Check.isin(["Yes", "No", "No internet service"])
         ),
