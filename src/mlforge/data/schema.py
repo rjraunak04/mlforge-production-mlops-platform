@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import pandas as pd
 import pandera.pandas as pa
-from pandera import Check, Column, DataFrameSchema
 
 EXPECTED_COLUMNS = [
     "customerID",
@@ -30,44 +29,46 @@ EXPECTED_COLUMNS = [
     "Churn",
 ]
 
-CHURN_SCHEMA = DataFrameSchema(
+CHURN_SCHEMA = pa.DataFrameSchema(
     {
-        "customerID": Column(str, nullable=False, unique=True),
-        "gender": Column(str, Check.isin(["Female", "Male"])),
-        "SeniorCitizen": Column(int, Check.isin([0, 1])),
-        "Partner": Column(str, Check.isin(["Yes", "No"])),
-        "Dependents": Column(str, Check.isin(["Yes", "No"])),
-        "tenure": Column(int, Check.ge(0)),
-        "PhoneService": Column(str, Check.isin(["Yes", "No"])),
-        "MultipleLines": Column(
-            str, Check.isin(["Yes", "No", "No phone service"])
+        "customerID": pa.Column(str, nullable=False, unique=True),
+        "gender": pa.Column(str, pa.Check.isin(["Female", "Male"])),
+        "SeniorCitizen": pa.Column(int, pa.Check.isin([0, 1])),
+        "Partner": pa.Column(str, pa.Check.isin(["Yes", "No"])),
+        "Dependents": pa.Column(str, pa.Check.isin(["Yes", "No"])),
+        "tenure": pa.Column(int, pa.Check.ge(0)),
+        "PhoneService": pa.Column(str, pa.Check.isin(["Yes", "No"])),
+        "MultipleLines": pa.Column(
+            str, pa.Check.isin(["Yes", "No", "No phone service"])
         ),
-        "InternetService": Column(str, Check.isin(["DSL", "Fiber optic", "No"])),
-        "OnlineSecurity": Column(
-            str, Check.isin(["Yes", "No", "No internet service"])
+        "InternetService": pa.Column(
+            str, pa.Check.isin(["DSL", "Fiber optic", "No"])
         ),
-        "OnlineBackup": Column(
-            str, Check.isin(["Yes", "No", "No internet service"])
+        "OnlineSecurity": pa.Column(
+            str, pa.Check.isin(["Yes", "No", "No internet service"])
         ),
-        "DeviceProtection": Column(
-            str, Check.isin(["Yes", "No", "No internet service"])
+        "OnlineBackup": pa.Column(
+            str, pa.Check.isin(["Yes", "No", "No internet service"])
         ),
-        "TechSupport": Column(
-            str, Check.isin(["Yes", "No", "No internet service"])
+        "DeviceProtection": pa.Column(
+            str, pa.Check.isin(["Yes", "No", "No internet service"])
         ),
-        "StreamingTV": Column(
-            str, Check.isin(["Yes", "No", "No internet service"])
+        "TechSupport": pa.Column(
+            str, pa.Check.isin(["Yes", "No", "No internet service"])
         ),
-        "StreamingMovies": Column(
-            str, Check.isin(["Yes", "No", "No internet service"])
+        "StreamingTV": pa.Column(
+            str, pa.Check.isin(["Yes", "No", "No internet service"])
         ),
-        "Contract": Column(
-            str, Check.isin(["Month-to-month", "One year", "Two year"])
+        "StreamingMovies": pa.Column(
+            str, pa.Check.isin(["Yes", "No", "No internet service"])
         ),
-        "PaperlessBilling": Column(str, Check.isin(["Yes", "No"])),
-        "PaymentMethod": Column(
+        "Contract": pa.Column(
+            str, pa.Check.isin(["Month-to-month", "One year", "Two year"])
+        ),
+        "PaperlessBilling": pa.Column(str, pa.Check.isin(["Yes", "No"])),
+        "PaymentMethod": pa.Column(
             str,
-            Check.isin(
+            pa.Check.isin(
                 [
                     "Electronic check",
                     "Mailed check",
@@ -76,9 +77,9 @@ CHURN_SCHEMA = DataFrameSchema(
                 ]
             ),
         ),
-        "MonthlyCharges": Column(float, Check.ge(0), coerce=True),
-        "TotalCharges": Column(float, Check.ge(0), nullable=True, coerce=True),
-        "Churn": Column(str, Check.isin(["Yes", "No"])),
+        "MonthlyCharges": pa.Column(float, pa.Check.ge(0), coerce=True),
+        "TotalCharges": pa.Column(float, pa.Check.ge(0), nullable=True, coerce=True),
+        "Churn": pa.Column(str, pa.Check.isin(["Yes", "No"])),
     },
     strict=True,
     ordered=True,
