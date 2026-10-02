@@ -35,9 +35,10 @@ def test_split_is_reproducible() -> None:
     second = split_churn_data(sample_data())
 
     assert first.train["customerID"].tolist() == second.train["customerID"].tolist()
-    assert first.validation["customerID"].tolist() == second.validation[
-        "customerID"
-    ].tolist()
+    assert (
+        first.validation["customerID"].tolist()
+        == second.validation["customerID"].tolist()
+    )
     assert first.test["customerID"].tolist() == second.test["customerID"].tolist()
 
 
