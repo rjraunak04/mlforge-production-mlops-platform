@@ -1,6 +1,6 @@
 import pandas as pd
-import pytest
 import pandera.errors as pa_errors
+import pytest
 
 from mlforge.data.schema import EXPECTED_COLUMNS, validate_churn_data
 
@@ -39,18 +39,18 @@ def test_valid_data_passes_contract() -> None:
 
 def test_missing_target_fails_contract() -> None:
     data = valid_frame().drop(columns=["Churn"])
-    with pytest.raises(pa_errors.SchemaError):
+    with pytest.raises(pa_errors.SchemaErrors):
         validate_churn_data(data)
 
 
 def test_invalid_target_fails_contract() -> None:
     data = valid_frame()
     data.loc[0, "Churn"] = "Maybe"
-    with pytest.raises(pa_errors.SchemaError):
+    with pytest.raises(pa_errors.SchemaErrors):
         validate_churn_data(data)
 
 
 def test_duplicate_customer_id_fails_contract() -> None:
     data = pd.concat([valid_frame(), valid_frame()], ignore_index=True)
-    with pytest.raises((ValueError, pa_errors.SchemaError)):
+    with pytest.raises((ValueError, pa_errors.SchemaErrors)):
         validate_churn_data(data)
