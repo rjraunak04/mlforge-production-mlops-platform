@@ -30,6 +30,12 @@ models:
     class_weight: balanced
     n_jobs: -1
 
+  hist_gradient_boosting:
+    enabled: true
+    max_iter: 200
+    learning_rate: 0.10
+    max_leaf_nodes: 31
+
 evaluation:
   selection_metric: roc_auc
   metrics:
