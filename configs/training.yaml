@@ -5,8 +5,8 @@
 training:
   target_column: Churn
   id_column: customerID
-  positive_label: Yes
-  negative_label: No
+  positive_label: "Yes"
+  negative_label: "No"
   random_state: 42
 
 preprocessing:
