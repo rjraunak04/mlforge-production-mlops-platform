@@ -1,0 +1,52 @@
+# Day 2 reproducible training configuration.
+# Model selection uses validation data only; the locked test split is not used
+# for tuning or candidate selection.
+
+training:
+  target_column: Churn
+  id_column: customerID
+  positive_label: "Yes"
+  negative_label: "No"
+  random_state: 42
+
+preprocessing:
+  numeric_imputation: median
+  categorical_imputation: most_frequent
+  categorical_encoding: one_hot
+  handle_unknown: ignore
+  scale_numeric: true
+
+models:
+  logistic_regression:
+    enabled: true
+    max_iter: 1000
+    class_weight: null
+
+  random_forest:
+    enabled: true
+    n_estimators: 300
+    max_depth: null
+    min_samples_leaf: 1
+    class_weight: balanced
+    n_jobs: -1
+
+  hist_gradient_boosting:
+    enabled: true
+    max_iter: 200
+    learning_rate: 0.10
+    max_leaf_nodes: 31
+
+evaluation:
+  selection_metric: roc_auc
+  metrics:
+    - roc_auc
+    - average_precision
+    - f1
+    - precision
+    - recall
+    - accuracy
+  classification_threshold: 0.50
+
+reproducibility:
+  deterministic_seed: 42
+  locked_test_for_selection: true
