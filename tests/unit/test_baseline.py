@@ -36,9 +36,7 @@ def _training_partition(rows: int = 40) -> pd.DataFrame:
                 "StreamingMovies": "No" if index % 2 else "Yes",
                 "Contract": "Month-to-month" if index % 3 else "One year",
                 "PaperlessBilling": "Yes" if index % 2 else "No",
-                "PaymentMethod": (
-                    "Electronic check" if index % 2 else "Mailed check"
-                ),
+                "PaymentMethod": ("Electronic check" if index % 2 else "Mailed check"),
                 "MonthlyCharges": 20.0 + index,
                 "TotalCharges": (20.0 + index) * (index + 1),
                 "Churn": churn,
