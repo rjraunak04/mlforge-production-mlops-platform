@@ -61,9 +61,9 @@ def _result(name: str, roc_auc: float, partition: str = "validation"):
 
 def test_evaluation_returns_required_metrics() -> None:
     train = prepare_model_data(_partition(40))
-    validation = prepare_model_data(_partition(20).assign(
-        customerID=lambda frame: "V" + frame["customerID"]
-    ))
+    validation = prepare_model_data(
+        _partition(20).assign(customerID=lambda frame: "V" + frame["customerID"])
+    )
     trained = train_logistic_baseline(train)
 
     result = evaluate_classifier(

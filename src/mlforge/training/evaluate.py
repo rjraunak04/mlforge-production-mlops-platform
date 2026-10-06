@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-import numpy as np
 from sklearn.metrics import (
     accuracy_score,
     average_precision_score,
@@ -72,7 +71,9 @@ def evaluate_classifier(
         precision=float(
             precision_score(evaluation_data.target, predictions, zero_division=0)
         ),
-        recall=float(recall_score(evaluation_data.target, predictions, zero_division=0)),
+        recall=float(
+            recall_score(evaluation_data.target, predictions, zero_division=0)
+        ),
         accuracy=float(accuracy_score(evaluation_data.target, predictions)),
         confusion_matrix=(
             (int(matrix[0, 0]), int(matrix[0, 1])),
