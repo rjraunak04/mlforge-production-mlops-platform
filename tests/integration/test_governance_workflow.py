@@ -118,8 +118,7 @@ def test_governed_workflow_tracks_registers_and_promotes(tmp_path: Path) -> None
     assert result.promotion is not None and result.promotion.promoted is True
     assert len(result.training.locked_test.target) > 0
     assert all(
-        item.partition == "validation"
-        for item in result.training.validation_results
+        item.partition == "validation" for item in result.training.validation_results
     )
 
     config = yaml.safe_load(mlflow_path.read_text(encoding="utf-8"))
