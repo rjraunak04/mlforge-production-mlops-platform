@@ -9,6 +9,11 @@ tracking:
 registry:
   model_name: "MLForgeChurnClassifier"
 
+quality_gates:
+  min_roc_auc: 0.80
+  min_average_precision: 0.55
+  min_recall: 0.50
+
 tags:
   project: "mlforge"
   dataset: "telco_churn"
