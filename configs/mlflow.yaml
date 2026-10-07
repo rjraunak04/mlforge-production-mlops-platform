@@ -1,0 +1,15 @@
+# Day 3 MLflow experiment tracking and registry configuration.
+
+tracking:
+  uri: "sqlite:///mlruns/mlflow.db"
+  artifact_root: "mlruns/artifacts"
+  experiment_name: "mlforge-churn"
+  registry_uri: "sqlite:///mlruns/mlflow.db"
+
+registry:
+  model_name: "MLForgeChurnClassifier"
+
+tags:
+  project: "mlforge"
+  dataset: "telco_churn"
+  lifecycle_stage: "validation"
