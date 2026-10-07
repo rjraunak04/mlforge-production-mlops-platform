@@ -139,7 +139,11 @@ def track_validation_run(
                 random_state=random_state,
             )
             mlflow.log_dict(asdict(metadata), "metadata/run_metadata.json")
-            mlflow.sklearn.log_model(pipeline, name="model")
+            mlflow.sklearn.log_model(
+                pipeline,
+                name="model",
+                serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE,
+            )
             model_uri = f"runs:/{active_run.info.run_id}/model"
 
         run_id = active_run.info.run_id

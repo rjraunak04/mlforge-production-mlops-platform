@@ -63,7 +63,7 @@ def _champion_evidence(
 
     score = champion.tags.get(f"validation.{metric}")
     if score is None:
-        raise ValueError("Existing champion is missing its validation comparison score.")
+        raise ValueError(\n            "Existing champion is missing its validation comparison score."\n        )
     return str(champion.version), float(score)
 
 

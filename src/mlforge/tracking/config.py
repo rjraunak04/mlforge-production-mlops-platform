@@ -41,8 +41,12 @@ class MLflowConfig:
 
     tracking: MLflowTrackingConfig
     registry: ModelRegistryConfig
-    quality_gates: QualityGateConfig
     tags: dict[str, str]
+    quality_gates: QualityGateConfig = QualityGateConfig(
+        min_roc_auc=0.0,
+        min_average_precision=0.0,
+        min_recall=0.0,
+    )
 
 
 def _required(mapping: dict[str, Any], key: str, section: str) -> str:
@@ -102,9 +106,7 @@ def load_mlflow_config(path: str | Path = "configs/mlflow.yaml") -> MLflowConfig
         ),
         quality_gates=QualityGateConfig(
             min_roc_auc=_threshold(quality_gates, "min_roc_auc"),
-            min_average_precision=_threshold(
-                quality_gates, "min_average_precision"
-            ),
+            min_average_precision=_threshold(quality_gates, "min_average_precision"),
             min_recall=_threshold(quality_gates, "min_recall"),
         ),
         tags=dict(tags),
