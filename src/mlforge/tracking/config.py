@@ -63,8 +63,7 @@ def load_mlflow_config(path: str | Path = "configs/mlflow.yaml") -> MLflowConfig
     if not isinstance(registry, dict):
         raise ValueError("registry must be a mapping.")
     if not isinstance(tags, dict) or not all(
-        isinstance(key, str) and isinstance(value, str)
-        for key, value in tags.items()
+        isinstance(key, str) and isinstance(value, str) for key, value in tags.items()
     ):
         raise ValueError("tags must contain string keys and string values.")
 
