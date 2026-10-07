@@ -17,7 +17,7 @@ from mlforge.tracking.config import (
     MLflowTrackingConfig,
     ModelRegistryConfig,
 )
-from mlforge.tracking.experiments import TrackedRun
+from mlforge.tracking.experiments import TrackedRun, configure_mlflow
 
 
 def _config(tmp_path: Path) -> MLflowConfig:
@@ -36,12 +36,7 @@ def _config(tmp_path: Path) -> MLflowConfig:
 
 
 def _logged_run(config: MLflowConfig) -> TrackedRun:
-    mlflow.set_tracking_uri(config.tracking.uri)
-    mlflow.set_registry_uri(config.tracking.registry_uri)
-    experiment_id = mlflow.create_experiment(
-        config.tracking.experiment_name,
-        artifact_location=config.tracking.artifact_root,
-    )
+    experiment_id = configure_mlflow(config)
     with mlflow.start_run(experiment_id=experiment_id) as run:
         model = DummyClassifier(strategy="prior").fit([[0], [1]], [0, 1])
         mlflow.sklearn.log_model(model, name="model")
