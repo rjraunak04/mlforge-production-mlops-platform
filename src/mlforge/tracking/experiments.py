@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from typing import Any
 
 import mlflow
+import mlflow.sklearn
+from sklearn.pipeline import Pipeline
 
 from mlforge.tracking.config import MLflowConfig
 from mlforge.training.evaluate import EvaluationResult
@@ -18,6 +20,19 @@ class TrackedRun:
     model_name: str
     run_id: str
     experiment_id: str
+    model_uri: str | None = None
+
+
+@dataclass(frozen=True)
+class RunMetadata:
+    """Reproducibility metadata stored with a trained model artifact."""
+
+    model_name: str
+    training_rows: int
+    validation_rows: int
+    selection_metric: str
+    classification_threshold: float
+    random_state: int
 
 
 def configure_mlflow(config: MLflowConfig) -> str:
@@ -80,8 +95,10 @@ def track_validation_run(
     classification_threshold: float,
     training_rows: int,
     validation_rows: int,
+    pipeline: Pipeline | None = None,
+    selection_metric: str = "roc_auc",
 ) -> TrackedRun:
-    """Record one already-trained model's validation evidence in MLflow."""
+    """Record validation evidence and optional trained model artifacts in MLflow."""
     if result.partition != "validation":
         raise ValueError("Day 3 tracking is restricted to validation results.")
 
@@ -110,10 +127,26 @@ def track_validation_run(
     ) as active_run:
         mlflow.log_params(params)
         mlflow.log_metrics(_metric_payload(result))
+
+        model_uri = None
+        if pipeline is not None:
+            metadata = RunMetadata(
+                model_name=result.model_name,
+                training_rows=training_rows,
+                validation_rows=validation_rows,
+                selection_metric=selection_metric,
+                classification_threshold=classification_threshold,
+                random_state=random_state,
+            )
+            mlflow.log_dict(asdict(metadata), "metadata/run_metadata.json")
+            mlflow.sklearn.log_model(pipeline, name="model")
+            model_uri = f"runs:/{active_run.info.run_id}/model"
+
         run_id = active_run.info.run_id
 
     return TrackedRun(
         model_name=result.model_name,
         run_id=run_id,
         experiment_id=str(experiment_id),
+        model_uri=model_uri,
     )
