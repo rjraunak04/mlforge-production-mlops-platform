@@ -97,9 +97,7 @@ def run_governed_training(
                 result=results[model_name],
                 model_config=training_config["models"][model_name],
                 random_state=int(settings["random_state"]),
-                classification_threshold=float(
-                    evaluation["classification_threshold"]
-                ),
+                classification_threshold=float(evaluation["classification_threshold"]),
                 training_rows=len(training.train.target),
                 validation_rows=len(training.validation.target),
                 pipeline=pipeline,
@@ -126,9 +124,7 @@ def run_governed_training(
     )
 
     metric = training.comparison.selection_metric
-    champion_version, champion_score = _champion_evidence(
-        mlflow_config, metric=metric
-    )
+    champion_version, champion_score = _champion_evidence(mlflow_config, metric=metric)
     decision = decide_promotion(
         model_name=candidate.model_name,
         candidate_version=candidate.version,
