@@ -1,10 +1,9 @@
-"""Tests for MLflow configuration contracts."""
-
-from __future__ import annotations
+"""Tests for MLflow configuration loading."""
 
 from pathlib import Path
 
 import pytest
+import yaml
 
 from mlforge.tracking.config import load_mlflow_config
 
@@ -14,46 +13,59 @@ def test_repository_mlflow_config_loads() -> None:
 
     assert config.tracking.experiment_name == "mlforge-churn"
     assert config.registry.model_name == "MLForgeChurnClassifier"
+    assert config.quality_gates.min_roc_auc == 0.80
     assert config.tags["project"] == "mlforge"
 
 
-def test_mlflow_config_rejects_missing_required_value(tmp_path: Path) -> None:
-    config_path = tmp_path / "mlflow.yaml"
-    config_path.write_text(
-        """
-tracking:
-  uri: "sqlite:///mlruns/mlflow.db"
-  artifact_root: "mlruns/artifacts"
-  experiment_name: ""
-  registry_uri: "sqlite:///mlruns/mlflow.db"
-registry:
-  model_name: "MLForgeChurnClassifier"
-tags:
-  project: "mlforge"
-""".strip(),
+def test_missing_required_mlflow_value_is_rejected(tmp_path: Path) -> None:
+    path = tmp_path / "mlflow.yaml"
+    path.write_text(
+        yaml.safe_dump(
+            {
+                "tracking": {
+                    "uri": "sqlite:///test.db",
+                    "artifact_root": "artifacts",
+                    "experiment_name": "",
+                    "registry_uri": "sqlite:///test.db",
+                },
+                "registry": {"model_name": "Model"},
+                "quality_gates": {
+                    "min_roc_auc": 0.8,
+                    "min_average_precision": 0.5,
+                    "min_recall": 0.5,
+                },
+                "tags": {},
+            }
+        ),
         encoding="utf-8",
     )
 
     with pytest.raises(ValueError, match="experiment_name"):
-        load_mlflow_config(config_path)
+        load_mlflow_config(path)
 
 
-def test_mlflow_config_rejects_non_string_tags(tmp_path: Path) -> None:
-    config_path = tmp_path / "mlflow.yaml"
-    config_path.write_text(
-        """
-tracking:
-  uri: "sqlite:///mlruns/mlflow.db"
-  artifact_root: "mlruns/artifacts"
-  experiment_name: "mlforge-churn"
-  registry_uri: "sqlite:///mlruns/mlflow.db"
-registry:
-  model_name: "MLForgeChurnClassifier"
-tags:
-  project: 42
-""".strip(),
+def test_non_string_mlflow_tags_are_rejected(tmp_path: Path) -> None:
+    path = tmp_path / "mlflow.yaml"
+    path.write_text(
+        yaml.safe_dump(
+            {
+                "tracking": {
+                    "uri": "sqlite:///test.db",
+                    "artifact_root": "artifacts",
+                    "experiment_name": "test",
+                    "registry_uri": "sqlite:///test.db",
+                },
+                "registry": {"model_name": "Model"},
+                "quality_gates": {
+                    "min_roc_auc": 0.8,
+                    "min_average_precision": 0.5,
+                    "min_recall": 0.5,
+                },
+                "tags": {"bad": 42},
+            }
+        ),
         encoding="utf-8",
     )
 
-    with pytest.raises(ValueError, match="string keys and string values"):
-        load_mlflow_config(config_path)
+    with pytest.raises(ValueError, match="tags"):
+        load_mlflow_config(path)
