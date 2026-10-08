@@ -62,7 +62,9 @@ def _payload() -> dict[str, object]:
 
 def _client(monkeypatch, service: Mock | None = None) -> TestClient:
     monkeypatch.setattr("mlforge.serving.app.load_serving_config", lambda _: _config())
-    monkeypatch.setattr("mlforge.serving.app.load_registry_model", lambda _: _loaded_model())
+    monkeypatch.setattr(
+        "mlforge.serving.app.load_registry_model", lambda _: _loaded_model()
+    )
     if service is not None:
         monkeypatch.setattr("mlforge.serving.app._build_service", lambda *_: service)
     return TestClient(create_app("test-serving.yaml"))

@@ -3,15 +3,19 @@
 from __future__ import annotations
 
 import os
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
 
 from fastapi import FastAPI, HTTPException, Request, status
 from pydantic import BaseModel, ConfigDict
 
 from mlforge.serving.config import ServingConfig, load_serving_config
 from mlforge.serving.inference import ChurnInferenceService, InferenceError
-from mlforge.serving.model_loader import LoadedModel, ModelLoadError, load_registry_model
+from mlforge.serving.model_loader import (
+    LoadedModel,
+    ModelLoadError,
+    load_registry_model,
+)
 from mlforge.serving.schemas import ChurnPredictionRequest, ChurnPredictionResponse
 
 
