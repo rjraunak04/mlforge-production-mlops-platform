@@ -21,6 +21,9 @@ dependencies = [
     "pandera>=0.20,<1.0",
     "PyYAML>=6.0,<7.0",
     "mlflow>=3.5,<4.0",
+    "fastapi>=0.115,<1.0",
+    "uvicorn[standard]>=0.32,<1.0",
+    "pydantic-settings>=2.7,<3.0",
 ]
 
 
@@ -29,6 +32,7 @@ dev = [
     "pytest>=8.3,<10.0",
     "ruff>=0.8,<1.0",
     "jupyter>=1.1,<2.0",
+    "httpx>=0.28,<1.0",
 ]
 
 

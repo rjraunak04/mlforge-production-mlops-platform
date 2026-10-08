@@ -1,0 +1,19 @@
+# Day 04 production inference service configuration.
+
+service:
+  name: "mlforge-inference-api"
+  host: "0.0.0.0"
+  port: 8000
+
+model:
+  name: "MLForgeChurnClassifier"
+  alias: "champion"
+  classification_threshold: 0.50
+
+mlflow:
+  tracking_uri: "sqlite:///mlruns/mlflow.db"
+  registry_uri: "sqlite:///mlruns/mlflow.db"
+
+runtime:
+  log_level: "INFO"
+  request_timeout_seconds: 30
