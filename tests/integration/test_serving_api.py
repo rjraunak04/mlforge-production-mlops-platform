@@ -36,14 +36,24 @@ def _loaded() -> LoadedModel:
 
 def _payload() -> dict[str, object]:
     return {
-        "gender": "Female", "SeniorCitizen": 0, "Partner": "Yes",
-        "Dependents": "No", "tenure": 12, "PhoneService": "Yes",
-        "MultipleLines": "No", "InternetService": "DSL",
-        "OnlineSecurity": "Yes", "OnlineBackup": "No",
-        "DeviceProtection": "No", "TechSupport": "Yes",
-        "StreamingTV": "No", "StreamingMovies": "No",
-        "Contract": "One year", "PaperlessBilling": "Yes",
-        "PaymentMethod": "Electronic check", "MonthlyCharges": 65.5,
+        "gender": "Female",
+        "SeniorCitizen": 0,
+        "Partner": "Yes",
+        "Dependents": "No",
+        "tenure": 12,
+        "PhoneService": "Yes",
+        "MultipleLines": "No",
+        "InternetService": "DSL",
+        "OnlineSecurity": "Yes",
+        "OnlineBackup": "No",
+        "DeviceProtection": "No",
+        "TechSupport": "Yes",
+        "StreamingTV": "No",
+        "StreamingMovies": "No",
+        "Contract": "One year",
+        "PaperlessBilling": "Yes",
+        "PaymentMethod": "Electronic check",
+        "MonthlyCharges": 65.5,
         "TotalCharges": 786.0,
     }
 
@@ -52,8 +62,11 @@ def test_serving_stack_health_ready_predict_and_request_id(monkeypatch) -> None:
     service = Mock()
     service.loaded_model = _loaded()
     service.predict.return_value = ChurnPredictionResponse(
-        prediction="Yes", churn_probability=0.73, threshold=0.5,
-        model_name="MLForgeChurnClassifier", model_version="7",
+        prediction="Yes",
+        churn_probability=0.73,
+        threshold=0.5,
+        model_name="MLForgeChurnClassifier",
+        model_version="7",
     )
     monkeypatch.setattr("mlforge.serving.app.load_serving_config", lambda _: _config())
     monkeypatch.setattr("mlforge.serving.app.load_registry_model", lambda _: _loaded())
