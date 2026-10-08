@@ -11,6 +11,10 @@ from pydantic import BaseModel, ConfigDict
 
 from mlforge.serving.config import ServingConfig, load_serving_config
 from mlforge.serving.inference import ChurnInferenceService, InferenceError
+from mlforge.serving.observability import (
+    RequestObservabilityMiddleware,
+    configure_logging,
+)
 from mlforge.serving.model_loader import (
     LoadedModel,
     ModelLoadError,
@@ -57,6 +61,7 @@ def create_app(config_path: str | None = None) -> FastAPI:
         except (FileNotFoundError, ValueError, ModelLoadError) as exc:
             raise RuntimeError("Inference service startup failed.") from exc
 
+        configure_logging(config.runtime.log_level)
         app.state.inference_service = _build_service(config, loaded)
         yield
         app.state.inference_service = None
@@ -66,6 +71,7 @@ def create_app(config_path: str | None = None) -> FastAPI:
         version="0.1.0",
         lifespan=lifespan,
     )
+    application.add_middleware(RequestObservabilityMiddleware)
 
     @application.get("/health", response_model=HealthResponse)
     async def health() -> HealthResponse:
