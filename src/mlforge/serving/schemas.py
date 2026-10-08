@@ -7,6 +7,8 @@ from typing import Literal
 import pandas as pd
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from mlforge.features.preprocessing import FeatureColumns
+
 
 class ChurnPredictionRequest(BaseModel):
     """Validated model features for one churn prediction."""
@@ -62,19 +64,23 @@ class ChurnPredictionRequest(BaseModel):
             value != "No internet service" for value in internet_features
         ):
             raise ValueError(
-                "Internet add-ons must be 'No internet service' when InternetService is 'No'."
+                "Internet add-ons must be 'No internet service' when "
+                "InternetService is 'No'."
             )
         if self.InternetService != "No" and any(
             value == "No internet service" for value in internet_features
         ):
             raise ValueError(
-                "Internet add-ons cannot be 'No internet service' when internet is active."
+                "Internet add-ons cannot be 'No internet service' when "
+                "internet is active."
             )
         return self
 
     def to_frame(self) -> pd.DataFrame:
         """Convert one validated request to the training feature order."""
-        return pd.DataFrame([self.model_dump()])
+        payload = self.model_dump()
+        columns = FeatureColumns().all
+        return pd.DataFrame([[payload[column] for column in columns]], columns=columns)
 
 
 class ChurnPredictionResponse(BaseModel):
