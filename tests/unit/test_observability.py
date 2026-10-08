@@ -4,7 +4,10 @@ import logging
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from mlforge.serving.observability import REQUEST_ID_HEADER, RequestObservabilityMiddleware
+from mlforge.serving.observability import (
+    REQUEST_ID_HEADER,
+    RequestObservabilityMiddleware,
+)
 
 
 def _app() -> FastAPI:

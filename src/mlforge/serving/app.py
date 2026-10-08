@@ -11,14 +11,14 @@ from pydantic import BaseModel, ConfigDict
 
 from mlforge.serving.config import ServingConfig, load_serving_config
 from mlforge.serving.inference import ChurnInferenceService, InferenceError
-from mlforge.serving.observability import (
-    RequestObservabilityMiddleware,
-    configure_logging,
-)
 from mlforge.serving.model_loader import (
     LoadedModel,
     ModelLoadError,
     load_registry_model,
+)
+from mlforge.serving.observability import (
+    RequestObservabilityMiddleware,
+    configure_logging,
 )
 from mlforge.serving.schemas import ChurnPredictionRequest, ChurnPredictionResponse
 
