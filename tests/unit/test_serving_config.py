@@ -4,7 +4,6 @@ import pytest
 
 from mlforge.serving.config import load_serving_config
 
-
 CONFIG = """
 service:
   name: mlforge-api
@@ -38,7 +37,9 @@ def test_load_serving_config(tmp_path: Path) -> None:
 def test_serving_config_rejects_invalid_threshold(tmp_path: Path) -> None:
     path = tmp_path / "serving.yaml"
     path.write_text(
-        CONFIG.replace("classification_threshold: 0.5", "classification_threshold: 1.5"),
+        CONFIG.replace(
+            "classification_threshold: 0.5", "classification_threshold: 1.5"
+        ),
         encoding="utf-8",
     )
 

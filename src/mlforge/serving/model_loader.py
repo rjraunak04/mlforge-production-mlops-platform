@@ -44,8 +44,7 @@ def load_registry_model(config: ServingConfig) -> LoadedModel:
         )
     except MlflowException as exc:
         raise ModelLoadError(
-            f"Unable to resolve model alias "
-            f"{config.model.name}@{config.model.alias}."
+            f"Unable to resolve model alias {config.model.name}@{config.model.alias}."
         ) from exc
 
     model_uri = f"models:/{config.model.name}/{version.version}"

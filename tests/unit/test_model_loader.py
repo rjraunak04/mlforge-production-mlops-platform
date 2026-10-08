@@ -33,7 +33,9 @@ def test_load_registry_model_resolves_alias_before_loading(monkeypatch) -> None:
     monkeypatch.setattr("mlforge.serving.model_loader.mlflow.set_tracking_uri", Mock())
     monkeypatch.setattr("mlforge.serving.model_loader.mlflow.set_registry_uri", Mock())
     load_model = Mock(return_value=pipeline)
-    monkeypatch.setattr("mlforge.serving.model_loader.mlflow.sklearn.load_model", load_model)
+    monkeypatch.setattr(
+        "mlforge.serving.model_loader.mlflow.sklearn.load_model", load_model
+    )
 
     loaded = load_registry_model(_config())
 
