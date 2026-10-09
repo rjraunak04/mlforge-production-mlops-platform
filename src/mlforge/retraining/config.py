@@ -16,7 +16,7 @@ class RetrainingConfig:
     evidence_path: Path
 
 
-def load_retraining_config(path: str | Path = "configs/retraining.yaml") -> RetrainingConfig:
+def load_retraining_config(\n    path: str | Path = "configs/retraining.yaml",\n) -> RetrainingConfig:
     source = Path(path)
     if not source.is_file():
         raise FileNotFoundError(f"Retraining configuration not found: {source}")
