@@ -35,7 +35,7 @@ def _categorical_score(reference: pd.Series, current: pd.Series) -> float:
     ref = reference.fillna("__missing__").astype(str).value_counts(normalize=True)
     cur = current.fillna("__missing__").astype(str).value_counts(normalize=True)
     categories = ref.index.union(cur.index)
-    return 0.5 * sum(abs(float(ref.get(x, 0.0)) - float(cur.get(x, 0.0))) for x in categories)
+    return 0.5 * sum(\n        abs(float(ref.get(x, 0.0)) - float(cur.get(x, 0.0))) for x in categories\n    )
 
 
 def detect_feature_drift(
@@ -51,14 +51,14 @@ def detect_feature_drift(
     results = []
     for column in reference.columns:
         numeric = pd.api.types.is_numeric_dtype(reference[column])
-        score = _numeric_score(reference[column], current[column]) if numeric else _categorical_score(reference[column], current[column])
+        score = (\n            _numeric_score(reference[column], current[column])\n            if numeric\n            else _categorical_score(reference[column], current[column])\n        )
         threshold = numeric_threshold if numeric else categorical_threshold
         results.append(FeatureDrift(column, score, score >= threshold))
     share = float(np.mean([item.drifted for item in results])) if results else 0.0
     return DriftSummary(tuple(results), share, share >= dataset_threshold)
 
 
-def prediction_drift(reference_probability: pd.Series, current_probability: pd.Series) -> float:
+def prediction_drift(\n    reference_probability: pd.Series, current_probability: pd.Series\n) -> float:
     if reference_probability.empty or current_probability.empty:
         raise ValueError("Prediction distributions must not be empty.")
     return abs(float(current_probability.mean()) - float(reference_probability.mean()))
