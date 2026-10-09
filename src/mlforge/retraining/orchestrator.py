@@ -44,9 +44,7 @@ def write_retraining_evidence(run: RetrainingRun, path: str | Path) -> Path:
             if governance and governance.registered_candidate
             else None
         ),
-        "quality_gate_passed": (
-            governance.quality_gate.passed if governance else None
-        ),
+        "quality_gate_passed": (governance.quality_gate.passed if governance else None),
         "promoted": (
             governance.promotion.promoted
             if governance and governance.promotion
