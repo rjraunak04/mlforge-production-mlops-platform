@@ -1,0 +1,7 @@
+retraining:
+  enabled: true
+  require_monitoring_signal: true
+  data_path: data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv
+  training_config_path: configs/training.yaml
+  mlflow_config_path: configs/mlflow.yaml
+  evidence_path: reports/retraining/latest.json
