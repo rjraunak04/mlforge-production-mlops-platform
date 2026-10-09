@@ -113,6 +113,9 @@ data/raw/*
 data/processed/*
 !data/processed/.gitkeep
 
+data/reference/*
+!data/reference/.gitkeep
+
 
 # ------------------------------------------------------------
 # Temporary / intermediate data
@@ -150,8 +153,10 @@ mlartifacts/
 # ------------------------------------------------------------
 # Monitoring / generated reports
 # ------------------------------------------------------------
-reports/generated/
-monitoring/reports/
+reports/
+!reports/.gitkeep
+monitoring/
+!monitoring/.gitkeep
 
 
 # ------------------------------------------------------------
