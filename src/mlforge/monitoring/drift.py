@@ -36,8 +36,7 @@ def _categorical_score(reference: pd.Series, current: pd.Series) -> float:
     cur = current.fillna("__missing__").astype(str).value_counts(normalize=True)
     categories = ref.index.union(cur.index)
     return 0.5 * sum(
-        abs(float(ref.get(x, 0.0)) - float(cur.get(x, 0.0)))
-        for x in categories
+        abs(float(ref.get(x, 0.0)) - float(cur.get(x, 0.0))) for x in categories
     )
 
 
