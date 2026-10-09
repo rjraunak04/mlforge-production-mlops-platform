@@ -184,13 +184,6 @@ These boundaries are documented deliberately so the project is reproducible and 
 - [Retraining and CI/CD](docs/day06_retraining_cicd.md)
 - [Production release audit](docs/day07_release_audit.md)
 
-## 2-minute interview walkthrough
-
-1. Start with the **problem**: offline model quality alone is not a production lifecycle.
-2. Walk through the **architecture** from validation to registry, serving, monitoring and retraining.
-3. Explain the **governance invariant**: monitoring can request retraining, but only quality gates plus strict champion improvement can promote.
-4. Show the **evidence**: reproducible metrics, tests, GitHub Actions and the versioned release.
-5. Finish with the **boundaries**: local MLflow and no claimed live cloud deployment.
 
 ## Author
 
