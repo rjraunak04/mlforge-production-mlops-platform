@@ -9,7 +9,7 @@ WORKDIR /app
 
 RUN groupadd --system mlforge && useradd --system --gid mlforge --create-home mlforge
 
-COPY pyproject.toml README.md LICENSE ./
+COPY pyproject.toml README.md ./
 COPY src ./src
 COPY configs ./configs
 
