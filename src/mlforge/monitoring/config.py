@@ -63,9 +63,7 @@ def load_monitoring_config(
         ),
         performance=PerformanceThresholds(
             min_roc_auc=_probability(performance["min_roc_auc"], "min_roc_auc"),
-            min_accuracy=_probability(
-                performance["min_accuracy"], "min_accuracy"
-            ),
+            min_accuracy=_probability(performance["min_accuracy"], "min_accuracy"),
             min_recall=_probability(performance["min_recall"], "min_recall"),
         ),
     )
