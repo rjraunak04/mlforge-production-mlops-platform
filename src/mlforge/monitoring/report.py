@@ -36,7 +36,7 @@ def build_monitoring_report(
         prediction_drift_score=prediction_drift_score,
         prediction_drifted=prediction_drifted,
         performance=performance,
-        retraining_recommended=feature_drift.dataset_drifted or prediction_drifted or degraded,
+        retraining_recommended=(\n            feature_drift.dataset_drifted or prediction_drifted or degraded\n        ),
     )
 
 
