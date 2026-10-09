@@ -34,7 +34,9 @@ def _probability(value: Any, name: str) -> float:
     return value
 
 
-def load_monitoring_config(\n    path: str | Path = "configs/monitoring.yaml",\n) -> MonitoringConfig:
+def load_monitoring_config(
+    path: str | Path = "configs/monitoring.yaml",
+) -> MonitoringConfig:
     source = Path(path)
     if not source.is_file():
         raise FileNotFoundError(f"Monitoring configuration not found: {source}")
@@ -53,11 +55,17 @@ def load_monitoring_config(\n    path: str | Path = "configs/monitoring.yaml",\n
         production_log_path=Path(section["production_log_path"]),
         report_dir=Path(section["report_dir"]),
         min_batch_size=size,
-        drift_share_threshold=_probability(\n            section["drift_share_threshold"], "drift_share_threshold"\n        ),
-        prediction_drift_threshold=_probability(\n            section["prediction_drift_threshold"], "prediction_drift_threshold"\n        ),
+        drift_share_threshold=_probability(
+            section["drift_share_threshold"], "drift_share_threshold"
+        ),
+        prediction_drift_threshold=_probability(
+            section["prediction_drift_threshold"], "prediction_drift_threshold"
+        ),
         performance=PerformanceThresholds(
             min_roc_auc=_probability(performance["min_roc_auc"], "min_roc_auc"),
-            min_accuracy=_probability(performance["min_accuracy"], "min_accuracy"),
+            min_accuracy=_probability(
+                performance["min_accuracy"], "min_accuracy"
+            ),
             min_recall=_probability(performance["min_recall"], "min_recall"),
         ),
     )
